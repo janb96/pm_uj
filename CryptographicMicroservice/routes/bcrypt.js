@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
-
 let BcryptHandler = require("../utils/BcryptHandler");
+let CryptographicResponse = require("../utils/CryptographicResponse");
 
 const minLength = 4;
 const maxLength = 24;
@@ -12,15 +12,27 @@ router.post('/hash', async function(req, res, next) {
 
     if(!plaintextPassword) {
         res.status(200);
-        res.send("No plaintextPassword in body or plaintextPassword is empty");
+        res.send(
+            new CryptographicResponse(
+                false,
+                "No plaintextPassword in body or plaintextPassword is empty",
+                null
+            )
+        );
     } else if(plaintextPassword.length < minLength || plaintextPassword.length > maxLength) {
         res.status(200);
-        res.send("plaintextPassword must be between 4 and 24 characters");
+        res.send(
+            new CryptographicResponse(
+                false,
+                "Password must be between 4 and 24 characters",
+                null
+            )
+        );
     } else {
         let bcryptHandler = new BcryptHandler();
         let hashPassword = await bcryptHandler.hashPassword(plaintextPassword);
         res.status(200);
-        res.send(hashPassword);
+        res.send(new CryptographicResponse(true, "success", hashPassword));
     }
 
 });
@@ -32,19 +44,43 @@ router.post('/check', async function(req, res, next) {
 
     if(!plaintextPassword || !hashPassword ) {
         res.status(200);
-        res.send("(No plaintextPassword or hashPassword in body) or (plaintextPassword or hashPassword is empty)");
+        res.send(
+            new CryptographicResponse(
+                false,
+                "(No plaintextPassword or hashPassword in body) or (plaintextPassword or hashPassword is empty)",
+                null
+            )
+        );
     } else if(plaintextPassword.length < minLength || plaintextPassword.length > maxLength) {
         res.status(200);
-        res.send("plaintextPassword must be between 4 and 24 characters");
+        res.send(
+            new CryptographicResponse(
+                false,
+                "plaintextPassword must be between 4 and 24 characters",
+                null
+            )
+        );
     } else {
         let bcryptHandler = new BcryptHandler();
         let isPassword = await bcryptHandler.checkPassword(plaintextPassword, hashPassword);
         if(!isPassword) {
             res.status(200);
-            res.send("Password is incorrect");
+            res.send(
+                new CryptographicResponse(
+                    false,
+                    "Password is incorrect",
+                    null
+                )
+            );
         } else {
             res.status(200);
-            res.send(isPassword);
+            res.send(
+                new CryptographicResponse(
+                    true,
+                    "Password is correct",
+                    null
+                )
+            );
         }
     }
 
