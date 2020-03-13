@@ -104,10 +104,26 @@ router.post('/registration', async function(req, res, next) {
     let booleanAgreement2 = (agreement2.toString() === "1");
     let booleanAgreement3 = (agreement3.toString() === "1");
 
+    //STEP 7 - CRYPTO PHONE
+
+    const postCryptoPhoneData = {
+        plaintext: phone
+    };
+
+    let cryptoPhone = await axios.post("http://localhost:4000/crypto/encrypt", postCryptoPhoneData);
+
+    if(cryptoPhone.data.status.toString() !== "true") {
+        res.status(200);
+        res.send(new AuthResponse(false, cryptoPhone.data.message));
+        return;
+    }
+
+    cryptoPhone = cryptoPhone.data.cipher;
+
     const user = {
         emailHash: sha256Email,
         emailCrypto: cryptoEmail,
-        phone: phone,
+        phone: cryptoPhone,
         password: bcryptPassword,
         agreement1: booleanAgreement1,
         agreement2: booleanAgreement2,
