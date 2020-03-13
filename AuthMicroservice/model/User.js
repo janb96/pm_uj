@@ -9,9 +9,39 @@ let User = sequelize.define('User', {
         primaryKey: true,
         autoIncrement: true
     },
-    emailHash: Sequelize.STRING,
-    emailCrypto: Sequelize.STRING,
-    password: Sequelize.STRING
+    emailHash: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
+    },
+    emailCrypto: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    phone: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    password: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    agreement1: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
+    agreement2: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
+    agreement3: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
+    dateOfRegistration: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+    }
 
 });
 

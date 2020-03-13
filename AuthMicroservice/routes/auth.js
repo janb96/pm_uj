@@ -3,8 +3,11 @@ let router = express.Router();
 let emailValidator = require("email-validator");
 let users = require("../model/User");
 let jwt = require('jsonwebtoken');
+let AuthResponse = require("../utils/AuthResponse");
 const config = require("../config");
 const axios = require('axios');
+
+
 
 router.post('/authenticate', async function(req, res, next) {
 
@@ -15,6 +18,7 @@ router.post('/authenticate', async function(req, res, next) {
     if(!emailValidator.validate(email)) {
         res.status(200);
         res.send("Email is incorrect");
+        res.send(new AuthResponse(false, "Email is incorrect"));
         return;
     }
 
@@ -25,16 +29,22 @@ router.post('/authenticate', async function(req, res, next) {
 
     let sha256Email = await axios.post("http://localhost:4000/sha256/hash", postSha256Data);
 
+    if(sha256Email.data.status.toString() !== "true") {
+        res.status(200);
+        res.send(new AuthResponse(false, sha256Email.data.message));
+        return;
+    }
+
     //STEP 3 - GET USER FROM DATABASE
     let dbUser = await users.findOne({
         where: {
-            emailHash: sha256Email.data
+            emailHash: sha256Email.data.cipher
         }
     });
 
     if(!dbUser) {
         res.status(200);
-        res.send("User with email doesn't exist");
+        res.send(new AuthResponse(false, "User with given email doesn't exist"));
         return;
     }
 
@@ -48,9 +58,9 @@ router.post('/authenticate', async function(req, res, next) {
 
     let compare = await axios.post("http://localhost:4000/bcrypt/check", postBcryptData);
 
-    if(compare.data.toString() !== "true") {
+    if(compare.data.status.toString() !== "true") {
         res.status(200);
-        res.send(compare.data.toString());
+        res.send(new AuthResponse(false, compare.data.message));
         return;
     }
 
@@ -62,12 +72,11 @@ router.post('/authenticate', async function(req, res, next) {
     let token = jwt.sign(tokenData, config.jwtTokenSecretKey, {expiresIn: config.expiresIn});
 
     const response = {
-        token: token,
-        status: "true"
+        token: token
     };
 
     res.status(200);
-    res.send(response);
+    res.send(new AuthResponse(true, response));
 });
 
 router.post('/checkToken', async function(req, res, next) {
@@ -77,11 +86,11 @@ router.post('/checkToken', async function(req, res, next) {
         jwt.verify(token, config.jwtTokenSecretKey);
     } catch(err) {
         res.status(200);
-        res.send("Invalid token");
+        res.send(new AuthResponse(false, "Invalid token"));
         return;
     }
 
-    res.send("Correct token");
+    res.send(new AuthResponse(true, "Correct token"));
 
 });
 
