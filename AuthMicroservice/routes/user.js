@@ -4,6 +4,7 @@ let emailValidator = require("email-validator");
 let users = require("../model/User");
 let AuthResponse = require("../utils/AuthResponse");
 const axios = require('axios');
+const sgMail = require('@sendgrid/mail');
 
 router.post('/registration', async function(req, res, next) {
 
@@ -137,6 +138,16 @@ router.post('/registration', async function(req, res, next) {
         res.send(new AuthResponse(false, "Something gone wrong ;("));
         return;
     }
+
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+        to: email,
+        from: 'janboduch@wp.pl',
+        subject: 'Test SendGrid',
+        html: '<h1>Congratulations!</h1><br/><h2>You just created an account.</h2>',
+    };
+
+    sgMail.send(msg);
 
     res.send(new AuthResponse(true, "User created"));
 

@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.5.4",
     "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
     "cookie-parser": "~1.4.4",
