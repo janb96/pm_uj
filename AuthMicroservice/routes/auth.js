@@ -17,7 +17,6 @@ router.post('/authenticate', async function(req, res, next) {
     //STEP 1 - VALIDATE EMAIL
     if(!emailValidator.validate(email)) {
         res.status(200);
-        res.send("Email is incorrect");
         res.send(new AuthResponse(false, "Email is incorrect"));
         return;
     }
@@ -79,7 +78,7 @@ router.post('/authenticate', async function(req, res, next) {
     res.send(new AuthResponse(true, response));
 });
 
-router.post('/checkToken', async function(req, res, next) {
+router.get('/checkToken', async function(req, res, next) {
     let token = req.headers['x-access-token'];
 
     try {

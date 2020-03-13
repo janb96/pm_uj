@@ -1,0 +1,19 @@
+body {
+    height: 100%;
+}
+
+.sign-in-form {
+    width: 100%;
+    padding: 15px;
+    max-width: 500px;
+    margin: auto;
+    font-weight: bold;
+}
+
+div.sign-in-form h1 {
+    padding-bottom: 15px;
+}
+
+.backend-response {
+    margin-top: 10px;
+}

@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
 
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -11,6 +12,7 @@ var authRouter = require('./routes/auth');
 var userRouter = require('./routes/user');
 
 var app = express();
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
