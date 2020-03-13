@@ -7,7 +7,7 @@ router.post('/encrypt', function(req, res, next) {
 
     let plaintext = req.body.plaintext;
     if(!plaintext) {
-        res.status(500);
+        res.status(200);
         res.send("No plaintext in body or plaintext is empty");
     } else {
         let cryptoHandler = new CryptoHandler();
@@ -21,7 +21,7 @@ router.post('/decrypt', function(req, res, next) {
 
     let ciphertext = req.body.ciphertext;
     if(!ciphertext) {
-        res.status(500);
+        res.status(200);
         res.send("No ciphertext in body or ciphertext is empty");
     } else {
         let cryptoHandler = new CryptoHandler();
