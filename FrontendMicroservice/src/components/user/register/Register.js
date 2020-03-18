@@ -1,18 +1,22 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import Header from './../../header/Header';
-import './Login.css';
+import './Register.css';
 import {config} from './../../../config';
 import BackendResponse from "./../../feedback/BackendResponse";
 import {Link} from "react-router-dom";
 
-class Login extends Component {
+class Register extends Component {
 
     constructor() {
         super();
         this.state = {
             email: "",
             password: "",
+            phone: "",
+            agreement1: false,
+            agreement2: false,
+            agreement3: false,
             backendMessage: "",
             status: ""
         };
@@ -32,9 +36,13 @@ class Login extends Component {
         event.preventDefault();
         const postData = {
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
+            phone: this.state.phone,
+            agreement1: this.state.agreement1,
+            agreement2: this.state.agreement2,
+            agreement3: this.state.agreement3
         };
-        axios.post(config.authMicroservice + "/user/authenticate", postData).then(
+        axios.post(config.authMicroservice + "/user/registration", postData).then(
             response => {
                 if(response.data.status !== true) {
                     this.setState({
@@ -43,7 +51,7 @@ class Login extends Component {
                     });
                 } else {
                     this.setState({
-                        backendMessage: "Password is correct",
+                        backendMessage: "Account created, verify Your e-mail address.",
                         status: response.data.status
                     });
                     window.sessionStorage.setItem("token", response.data.message.token);
@@ -54,8 +62,9 @@ class Login extends Component {
 
     handleChange(event) {
         let stateName = event.target.id;
+        let value = event.target.type === "checkbox" ? event.target.checked : event.target.value;
         this.setState({
-            [stateName]: event.target.value
+            [stateName]: value
         });
     }
 
@@ -64,22 +73,38 @@ class Login extends Component {
             <div>
                 <Header/>
                 <div className="sign-in-form">
-                    <h1>Sign in</h1>
+                    <h1>Create a new account</h1>
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <label>Email address</label>
+                            <label>Email address (*)</label>
                             <input  onChange={this.handleChange} placeholder="Email address" type="email" className="form-control" id="email"/>
                         </div>
                         <div className="form-group">
-                            <label>Password</label>
+                            <label>Password (*)</label>
                             <input  onChange={this.handleChange} placeholder="Password" type="password" className="form-control" id="password"/>
                         </div>
-                        <button type="submit" className="btn btn-secondary btn-block">Sign in</button>
+                        <div className="form-group">
+                            <label>Phone number</label>
+                            <input  onChange={this.handleChange} placeholder="Phone number (optional)" type="text" className="form-control" id="phone"/>
+                        </div>
+                        <div className="form-group">
+                            <label>Website regulations (*)</label>
+                            <input  onChange={this.handleChange} type="checkbox" className="form-control" id="agreement1"/>
+                        </div>
+                        <div className="form-group">
+                            <label>Email marketing </label>
+                            <input  onChange={this.handleChange} type="checkbox" className="form-control" id="agreement2"/>
+                        </div>
+                        <div className="form-group">
+                            <label>Phone marketing</label>
+                            <input  onChange={this.handleChange} type="checkbox" className="form-control" id="agreement3"/>
+                        </div>
+                        <button type="submit" className="btn btn-secondary btn-block">Register</button>
                         <BackendResponse status={this.state.status} backendMessage={this.state.backendMessage}/>
                     </form>
                     <p>
-                        <Link to="/user/register">
-                            Create Account
+                        <Link to="/user/login">
+                            or Sign in
                         </Link>
                     </p>
                 </div>
@@ -88,4 +113,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default Register;
