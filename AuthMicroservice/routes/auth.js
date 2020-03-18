@@ -26,7 +26,7 @@ router.post('/authenticate', async function(req, res, next) {
         plaintext: email
     };
 
-    let sha256Email = await axios.post("http://localhost:4000/sha256/hash", postSha256Data);
+    let sha256Email = await axios.post(config.cryptographicMicroserviceURL + "/sha256/hash", postSha256Data);
 
     if(sha256Email.data.status.toString() !== "true") {
         res.status(200);
@@ -55,7 +55,7 @@ router.post('/authenticate', async function(req, res, next) {
         hashPassword: dbUserData.password
     };
 
-    let compare = await axios.post("http://localhost:4000/bcrypt/check", postBcryptData);
+    let compare = await axios.post(config.cryptographicMicroserviceURL + "/bcrypt/check", postBcryptData);
 
     if(compare.data.status.toString() !== "true") {
         res.status(200);

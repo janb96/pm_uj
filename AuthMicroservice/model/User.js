@@ -41,6 +41,10 @@ let User = sequelize.define('User', {
     dateOfRegistration: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
+    },
+    dateOfConfirmation: {
+        type: Sequelize.DATE,
+        allowNull: true
     }
 
 });
