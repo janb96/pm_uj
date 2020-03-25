@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize('pm_uj', 'jb96', 'Onyks1234', {
-    host: 'pm-uj.database.windows.net',
+var sequelize = new Sequelize('DB NAME', 'USER', 'PASSWORD', {
+    host: 'HOST HERE',
     dialect: 'mssql',
     pool: {
         max: 5,

@@ -1,12 +1,9 @@
-let axios = require('axios');
-
 class AuthResponse {
 
     constructor(status, message) {
         this.status = status;
         this.message = message;
     }
-
 
 }
 

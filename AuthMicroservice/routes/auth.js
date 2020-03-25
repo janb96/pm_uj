@@ -7,8 +7,6 @@ let AuthResponse = require("../utils/AuthResponse");
 const config = require("../config");
 const axios = require('axios');
 
-
-
 router.post('/authenticate', async function(req, res, next) {
 
     let email = req.body.email;
@@ -64,7 +62,8 @@ router.post('/authenticate', async function(req, res, next) {
     }
 
     const tokenData = {
-        emailHash: sha256Email.data,
+        userID: dbUserData.userID,
+        emailHash: sha256Email.data.cipher,
         emailPlain: email
     };
 
@@ -79,17 +78,17 @@ router.post('/authenticate', async function(req, res, next) {
 });
 
 router.get('/checkToken', async function(req, res, next) {
+
     let token = req.headers['x-access-token'];
 
-    try {
-        jwt.verify(token, config.jwtTokenSecretKey);
-    } catch(err) {
-        res.status(200);
-        res.send(new AuthResponse(false, "Invalid token"));
-        return;
-    }
-
-    res.send(new AuthResponse(true, "Correct token"));
+    jwt.verify(token, config.jwtTokenSecretKey, function (error, decoded) {
+        if(error) {
+            res.status(200);
+            res.send(new AuthResponse(false, "Invalid token"));
+            return;
+        }
+        res.send(new AuthResponse(true, decoded));
+    });
 
 });
 
