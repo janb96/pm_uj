@@ -39,6 +39,9 @@ const Announcements = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    condition: {
+      type: String
+    },
     numberOfViews: {
         type: Number,
         default: 0

@@ -46,6 +46,7 @@ router.post('/', LoginGuard, async function(req, res, next) {
     let photoUrlArray = req.body.photoUrlArray;
     let categoryID = req.body.categoryID;
     let subcategoryID = req.body.subcategoryID;
+    let condition = req.body.condition;
 
     //GENERATE EXPIRATION DATE (1 MONTH)
     let expirationDate = moment().add(1, "month");
@@ -93,6 +94,7 @@ router.post('/', LoginGuard, async function(req, res, next) {
         subcategoryID: subcategoryID,
         photoUrlArray: photoUrlArray,
         expirationDate: expirationDate,
+        condition: condition,
         dateOfCreation: moment()
     };
 

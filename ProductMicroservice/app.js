@@ -8,6 +8,7 @@ var mongo_db_connection = require("./connect_mongoose");
 var categoriesRouter = require('./routes/categories');
 var subcategoriesRouter = require('./routes/subcategories');
 var announcementsRouter = require('./routes/announcements');
+var announcementRouter = require('./routes/announcement');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/categories', categoriesRouter);
 app.use('/subcategories', subcategoriesRouter);
 app.use('/announcements', announcementsRouter);
+app.use('/announcement', announcementRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
