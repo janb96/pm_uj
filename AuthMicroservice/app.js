@@ -10,6 +10,7 @@ const Op = Sequelize.Op;
 
 var authRouter = require('./routes/auth');
 var userRouter = require('./routes/user');
+var microserviceRouter = require('./routes/microservice');
 
 var app = express();
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
@@ -26,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user', authRouter);
 app.use('/user', userRouter);
+app.use('/microservice', microserviceRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   res.send("404");

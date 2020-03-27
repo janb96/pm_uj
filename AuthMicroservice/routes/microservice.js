@@ -1,7 +1,6 @@
 let express = require('express');
 let router = express.Router();
-let emailValidator = require("email-validator");
-let users = require("../model/User");
+let microservices = require("../model/Microservice");
 let jwt = require('jsonwebtoken');
 let AuthResponse = require("../utils/AuthResponse");
 let TokenGenerator = require("../utils/TokenGenerator");
@@ -10,48 +9,48 @@ const axios = require('axios');
 
 router.post('/authenticate', async function(req, res, next) {
 
-    let email = req.body.email;
+    let name = req.body.name;
     let password = req.body.password;
 
-    //STEP 1 - VALIDATE EMAIL
-    if(!emailValidator.validate(email)) {
+    //STEP 1 - VALIDATE NAME
+    if(!name) {
         res.status(200);
-        res.send(new AuthResponse(false, "Email is incorrect"));
+        res.send(new AuthResponse(false, "Name is incorrect"));
         return;
     }
 
-    //STEP 2 - SHA256 EMAIL
+    //STEP 2 - SHA256 NAME
     const postSha256Data = {
-        plaintext: email
+        plaintext: name
     };
 
-    let sha256Email = await axios.post(config.cryptographicMicroserviceURL + "/sha256/hash", postSha256Data);
+    let sha256Name = await axios.post(config.cryptographicMicroserviceURL + "/sha256/hash", postSha256Data);
 
-    if(sha256Email.data.status.toString() !== "true") {
+    if(sha256Name.data.status.toString() !== "true") {
         res.status(200);
-        res.send(new AuthResponse(false, sha256Email.data.message));
+        res.send(new AuthResponse(false, sha256Name.data.message));
         return;
     }
 
-    //STEP 3 - GET USER FROM DATABASE
-    let dbUser = await users.findOne({
+    //STEP 3 - GET MICROSERVICE FROM DATABASE
+    let dbMicroservice = await microservices.findOne({
         where: {
-            emailHash: sha256Email.data.cipher
+            name: sha256Name.data.cipher
         }
     });
 
-    if(!dbUser) {
+    if(!dbMicroservice) {
         res.status(200);
-        res.send(new AuthResponse(false, "User with given email doesn't exist"));
+        res.send(new AuthResponse(false, "Microservice with given name doesn't exist"));
         return;
     }
 
-    let dbUserData = dbUser.dataValues;
+    let dbMicroserviceData = dbMicroservice.dataValues;
 
     //STEP 4 - COMPARE PASSWORDS
     const postBcryptData = {
         plaintextPassword: password,
-        hashPassword: dbUserData.password
+        hashPassword: dbMicroserviceData.password
     };
 
     let compare = await axios.post(config.cryptographicMicroserviceURL + "/bcrypt/check", postBcryptData);
@@ -63,13 +62,12 @@ router.post('/authenticate', async function(req, res, next) {
     }
 
     const tokenData = {
-        userID: dbUserData.userID,
-        emailHash: sha256Email.data.cipher,
-        emailPlain: email
+        microserviceID: dbMicroserviceData.microserviceID,
+        name: sha256Name.data.cipher
     };
 
     res.status(200);
-    res.send(new AuthResponse(true, TokenGenerator(tokenData, true)));
+    res.send(new AuthResponse(true, TokenGenerator(tokenData, false)));
 });
 
 router.get('/checkToken', async function(req, res, next) {
