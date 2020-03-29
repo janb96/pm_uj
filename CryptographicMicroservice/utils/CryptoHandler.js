@@ -17,6 +17,15 @@ class CryptoHandler {
         return bytes.toString(CryptoJS.enc.Utf8);
     }
 
+    encryptObject(object) {
+        return CryptoJS.AES.encrypt(JSON.stringify(object), secretKey).toString();
+    }
+
+    decryptObject(ciphertext) {
+        let bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+        return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    }
+
 }
 
 module.exports = CryptoHandler;
