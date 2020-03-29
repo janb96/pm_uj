@@ -3,8 +3,8 @@ let router = express.Router();
 let emailValidator = require("email-validator");
 let users = require("../model/User");
 let AuthResponse = require("../utils/AuthResponse");
+let SendToEmailMicroservice = require("../utils/SendToEmailMicroservice");
 let axios = require('axios');
-let sgMail = require('@sendgrid/mail');
 let moment = require('moment');
 let md5 = require('md5');
 const config = require("../config");
@@ -34,7 +34,7 @@ router.post('/registration', async function(req, res, next) {
         plaintext: email
     };
 
-    let sha256Email = await axios.post( config.cryptographicMicroserviceURL + "/sha256/hash", postSha256Data);
+    let sha256Email = await axios.post( config.cryptographicMicroserviceURL + "/sha256/hash", postSha256Data).catch(err => console.log(err));
 
     if(sha256Email.data.status.toString() !== "true") {
         res.status(200);
@@ -68,7 +68,7 @@ router.post('/registration', async function(req, res, next) {
         plaintext: email
     };
 
-    let cryptoEmail = await axios.post(config.cryptographicMicroserviceURL + "/crypto/encrypt", postCryptoEmailData);
+    let cryptoEmail = await axios.post(config.cryptographicMicroserviceURL + "/crypto/encrypt", postCryptoEmailData).catch(err => console.log(err));
 
     if(cryptoEmail.data.status.toString() !== "true") {
         res.status(200);
@@ -84,7 +84,7 @@ router.post('/registration', async function(req, res, next) {
         plaintextPassword: password
     };
 
-    let bcryptPassword = await axios.post(config.cryptographicMicroserviceURL + "/bcrypt/hash", postBcryptPasswordData);
+    let bcryptPassword = await axios.post(config.cryptographicMicroserviceURL + "/bcrypt/hash", postBcryptPasswordData).catch(err => console.log(err));
 
     if(bcryptPassword.data.status.toString() !== "true") {
         res.status(200);
@@ -117,7 +117,7 @@ router.post('/registration', async function(req, res, next) {
     let cryptoPhone;
 
     if(phone.length > 0) {
-        cryptoPhone = await axios.post(config.cryptographicMicroserviceURL + "/crypto/encrypt", postCryptoPhoneData);
+        cryptoPhone = await axios.post(config.cryptographicMicroserviceURL + "/crypto/encrypt", postCryptoPhoneData).catch(err => console.log(err));
 
         if(cryptoPhone.data.status.toString() !== "true") {
             res.status(200);
@@ -156,7 +156,7 @@ router.post('/registration', async function(req, res, next) {
         plaintext: nowPlusOneHour
     };
 
-    let cryptoDate = await axios.post(config.cryptographicMicroserviceURL + "/crypto/encrypt", postCryptoDateData);
+    let cryptoDate = await axios.post(config.cryptographicMicroserviceURL + "/crypto/encrypt", postCryptoDateData).catch(err => console.log(err));
 
     if(cryptoDate.data.status.toString() !== "true") {
         res.status(200);
@@ -175,16 +175,14 @@ router.post('/registration', async function(req, res, next) {
 
     //STEP 10 - SEND E-MAIL
 
-    sgMail.setApiKey(config.emailAuth);
+    let emailSenderStatus = await SendToEmailMicroservice(
+        email,
+        'janboduch@wp.pl',
+        'Welcome to JB-PM-UJ! Confirm Your Email',
+        '<h1>Congratulations!</h1><br/><h2>You have just created an account!</h2><br/>' + confirmationAhref
+    );
 
-    const msg = {
-        to: email,
-        from: 'janboduch@wp.pl',
-        subject: 'Welcome to JB-PM-UJ! Confirm Your Email',
-        html: '<h1>Congratulations!</h1><br/><h2>You have just created an account!</h2><br/>' + confirmationAhref,
-    };
-
-    sgMail.send(msg);
+    console.log(emailSenderStatus);
 
     res.send(new AuthResponse(true, "User created"));
 
@@ -192,7 +190,7 @@ router.post('/registration', async function(req, res, next) {
 
 router.post('/confirm', async function(req, res, next) {
 
-    let sha256 = Buffer.from(req.body.p1, 'base64').toString('utf8');
+    let sha256 = Buffer.from(req.body.p1, 'base64').toString('utf8'); 
     let validDate = Buffer.from(req.body.p2, 'base64').toString('utf8');
     let controlSum = req.body.p3;
 
@@ -216,7 +214,7 @@ router.post('/confirm', async function(req, res, next) {
         ciphertext: validDate
     };
 
-    let decryptDate = await axios.post(config.cryptographicMicroserviceURL + "/crypto/decrypt", postDataToDecrypt);
+    let decryptDate = await axios.post(config.cryptographicMicroserviceURL + "/crypto/decrypt", postDataToDecrypt).catch(err => console.log(err));
 
     if(decryptDate.data.status.toString() !== "true") {
         res.status(200);
