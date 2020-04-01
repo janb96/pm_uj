@@ -175,14 +175,12 @@ router.post('/registration', async function(req, res, next) {
 
     //STEP 10 - SEND E-MAIL
 
-    let emailSenderStatus = await SendToEmailMicroservice(
+    SendToEmailMicroservice(
         email,
         'janboduch@wp.pl',
         'Welcome to JB-PM-UJ! Confirm Your Email',
         '<h1>Congratulations!</h1><br/><h2>You have just created an account!</h2><br/>' + confirmationAhref
     );
-
-    console.log(emailSenderStatus);
 
     res.send(new AuthResponse(true, "User created"));
 
