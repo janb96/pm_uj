@@ -11,6 +11,7 @@ let SkipMaker = require("../utils/SkipMaker");
 let OrderMaker = require("../utils/OrderMaker");
 let LimitMaker = require("../utils/LimitMaker");
 let AnnouncementResponse = require("../utils/AnnouncementResponse");
+let SendToEmailMicroservice = require("../utils/SendToEmailMicroservice");
 
 //MODELS
 let categories = require("./../model/Categories");
@@ -38,6 +39,7 @@ router.post('/', LoginGuard, async function(req, res, next) {
 
     //GET DATA FROM TOKEN
     let userID = req.token.userID;
+    let emailPlain = req.token.emailPlain;
 
     //GET DATA FROM BODY
     let announcementTitle = req.body.announcementTitle;
@@ -104,6 +106,15 @@ router.post('/', LoginGuard, async function(req, res, next) {
             res.send(new AnnouncementResponse(false, "Something gone wrong ;("));
             return;
         }
+
+        //TODO CHANGE EMAIL CONTENT
+
+        SendToEmailMicroservice(
+            emailPlain,
+            'janboduch@wp.pl',
+            'Your announcement has been added',
+            '<h1>Congratulations!</h1><br/><h2>You have just created an announcement!</h2><br/>'
+        );
 
         res.status(200);
         res.send(new AnnouncementResponse(true, response));

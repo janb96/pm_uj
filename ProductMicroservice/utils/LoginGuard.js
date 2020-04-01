@@ -4,7 +4,7 @@ let AnnouncementResponse = require("./AnnouncementResponse");
 
 function checkToken(req, res, next) {
     let token = req.headers['x-access-token'];
-    axios.get(config.authMicroservice + "/user/checkToken", {
+    axios.get(config.authMicroserviceURL + "/user/checkToken", {
         headers: {
             'x-access-token': token
         }
