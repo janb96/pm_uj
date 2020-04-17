@@ -13,7 +13,7 @@ var userRouter = require('./routes/user');
 var microserviceRouter = require('./routes/microservice');
 
 var app = express();
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
