@@ -25,6 +25,11 @@ const Announcements = new mongoose.Schema({
         required: true
     },
     photoUrlArray: {
+        type: [String],
+        required: false
+    },
+    pdfFiles: {
+        type: [String],
         required: false
     },
     dateOfCreation: {
