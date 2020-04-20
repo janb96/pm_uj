@@ -46,6 +46,7 @@ router.post('/', LoginGuard, async function(req, res, next) {
     let announcementDescription = req.body.announcementDescription;
     let announcementPrice = req.body.announcementPrice;
     let photoUrlArray = req.body.photoUrlArray;
+    let pdfFiles = req.body.pdfFiles;
     let categoryID = req.body.categoryID;
     let subcategoryID = req.body.subcategoryID;
     let condition = req.body.condition;
@@ -95,10 +96,13 @@ router.post('/', LoginGuard, async function(req, res, next) {
         categoryID: categoryID,
         subcategoryID: subcategoryID,
         photoUrlArray: photoUrlArray,
+        pdfFiles: pdfFiles,
         expirationDate: expirationDate,
         condition: condition,
         dateOfCreation: moment()
     };
+
+    console.log(announcement.photoUrlArray);
 
     announcements.create(announcement, function (err, response) {
         if(err) {

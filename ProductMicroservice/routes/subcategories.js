@@ -44,4 +44,24 @@ router.post('/', async function(req, res, next) {
 
 });
 
+router.get('/byCategory/:categoryID', async function(req, res, next) {
+
+    let categoryID = req.params.categoryID;
+
+    try {
+        let dbSubcategories = await subcategories.findAll({
+            where: {
+                categoryID: categoryID
+            }
+        });
+        res.status(200);
+        res.send(new AnnouncementResponse(true, dbSubcategories));
+    } catch(err) {
+        res.status(200);
+        res.send(new AnnouncementResponse(false, "Failed to load subcategories from database"));
+        return;
+    }
+
+});
+
 module.exports = router;
