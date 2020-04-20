@@ -1,0 +1,134 @@
+body {
+    height: 100%;
+}
+
+.add-announcement-form {
+    width: 100%;
+    padding: 15px;
+    max-width: 600px;
+    margin: auto;
+    font-weight: bold;
+}
+
+.pdf-list {
+    width: 100%;
+    padding: 15px;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    border-style: groove;
+}
+
+label.label-pdf:hover {
+    text-shadow: 2px 2px 4px green;
+}
+
+label.label-photo:hover {
+    text-shadow: 2px 2px 4px green;
+}
+
+.img-carousel {
+    padding: 15px;
+    width: 100%;
+    max-width: 600px;
+    height: 750px;
+    margin: auto;
+}
+
+.img-carousel-img-box {
+    width: 100%;
+    max-width: 600px;
+    height: 600px;
+}
+
+div.img-carousel > i {
+    padding: 15px;
+}
+
+input[type]:focus {
+    border: 2px solid green;
+}
+
+input[type]:hover {
+    border: 2px solid green;
+}
+
+textarea.form-control:focus {
+    border: 2px solid green;
+}
+
+textarea.form-control:hover {
+    border: 2px solid green;
+}
+
+select.form-control:focus {
+    border: 2px solid green;
+    font-weight: bold;
+}
+
+select.form-control:hover {
+    border: 2px solid green;
+}
+
+div.img-carousel > i:hover {
+    text-shadow: 2px 2px 4px green;
+    transition: transform .2s;
+    transform: scale(1.25);
+}
+
+div.form-check:hover {
+    text-shadow: 2px 2px 4px green;
+}
+
+.img-carousel {
+    text-align: center;
+}
+
+.radio-input {
+    padding-bottom: 15px;
+}
+
+div.img-carousel > img:hover {
+    transition: transform .2s;
+    transform: scale(1.02);
+}
+
+div.img-carousel {
+    border: 2px solid black;
+}
+
+img {
+    max-width: 580px;
+    max-height: 600px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+}
+
+div.pdf-list a{
+    display: block;
+    color: red;
+    text-decoration: none;
+}
+
+div.add-announcement-form h1 {
+    padding-bottom: 15px;
+}
+
+.backend-response {
+    margin-top: 10px;
+}
+
+#pdfFile, #image {
+    width: 0px;
+    height: 0px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+}
+
+label {
+    cursor: pointer;
+}
+

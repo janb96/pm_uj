@@ -23,7 +23,7 @@ class Confirmation extends Component {
             p3: p3
         };
 
-        let postResponse = axios.post(config.authMicroservice + '/user/confirm', confirmPostData).then(
+        axios.post(config.authMicroservice + '/user/confirm', confirmPostData).then(
             response => {
                 if(response.data.status !== true) {
                     this.setState({
