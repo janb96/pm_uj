@@ -16,6 +16,10 @@ const Announcements = new mongoose.Schema({
         type: Number,
         required: true
     },
+    emailHash: {
+        type: String,
+        required: true
+    },
     categoryID: {
         type: Number,
         required: true

@@ -40,6 +40,7 @@ router.post('/', LoginGuard, async function(req, res, next) {
     //GET DATA FROM TOKEN
     let userID = req.token.userID;
     let emailPlain = req.token.emailPlain;
+    let emailHash = req.token.emailHash;
 
     //GET DATA FROM BODY
     let announcementTitle = req.body.announcementTitle;
@@ -93,6 +94,7 @@ router.post('/', LoginGuard, async function(req, res, next) {
         announcementDescription: announcementDescription,
         announcementPrice: announcementPrice,
         userID: userID,
+        emailHash: emailHash,
         categoryID: categoryID,
         subcategoryID: subcategoryID,
         photoUrlArray: photoUrlArray,
