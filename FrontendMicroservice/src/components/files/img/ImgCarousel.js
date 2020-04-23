@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {config} from './../../../config';
+import './ImgCarousel.css';
 
 class ImgCarousel extends Component {
 
@@ -48,12 +49,14 @@ class ImgCarousel extends Component {
 
         if(this.props.imgFiles.length > 0) {
             return (
-                <div className="img-carousel">
-                    <div className="img-carousel-img-box">
-                        <img src={config.fileMicroservice + "/img/" + this.props.imgFiles[this.state.count]} alt=""/>
+                <div className="container text-center">
+                    <div className="img-carousel">
+                        <img id="carouselImg" className="img-fluid" src={config.fileMicroservice + "/img/" + this.props.imgFiles[this.state.count]} alt=""/>
                     </div>
-                    <i onClick={this.downCounter} className="fas fa-arrow-left fa-3x"></i>
-                    <i onClick={this.upCounter} className="fas fa-arrow-right fa-3x"></i>
+                    <div className="img-arrows">
+                        <i onClick={this.downCounter} className="fas fa-arrow-alt-circle-left fa-3x"></i>
+                        <i onClick={this.upCounter} className="fas fa-arrow-alt-circle-right fa-3x"></i>
+                    </div>
                     <p>{this.state.count + 1} of {this.props.imgFiles.length}</p>
                 </div>
             );

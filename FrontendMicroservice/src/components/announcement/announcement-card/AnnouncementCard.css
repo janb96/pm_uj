@@ -1,0 +1,25 @@
+.announcement-data {
+    padding: 15px;
+    /*box-shadow: 1px 1px 15px black;*/
+    /*text-align: center;*/
+}
+
+.announcement-description {
+    padding: 15px;
+    /*box-shadow: 1px 1px 15px black;*/
+}
+
+#announcement {
+    padding: 20px;
+    /*background-color: white;*/
+}
+
+/*div#announcement > h1 {*/
+/*    padding: 15px;*/
+/*}*/
+
+
+
+body {
+    background-color: #f2f2f2;
+}

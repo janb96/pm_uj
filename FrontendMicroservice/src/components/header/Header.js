@@ -24,12 +24,12 @@ class Header extends Component {
                             </Link>
                         </div>
                         <div className="col-3">
-                            <Link className="white-link" to="/">
-                                Home
+                            <Link className="white-link" to="/announcement/5e9f7cfccb28742590073d35">
+                                Example announcement
                             </Link>
                         </div>
                         <div className="col-3">
-                            <Link className="white-link" to="/announcement/add">
+                            <Link className="white-link" to="/manage/announcement/add">
                                 Add announcement
                             </Link>
                         </div>

@@ -27,24 +27,6 @@ label.label-photo:hover {
     text-shadow: 2px 2px 4px green;
 }
 
-.img-carousel {
-    padding: 15px;
-    width: 100%;
-    max-width: 600px;
-    height: 750px;
-    margin: auto;
-}
-
-.img-carousel-img-box {
-    width: 100%;
-    max-width: 600px;
-    height: 600px;
-}
-
-div.img-carousel > i {
-    padding: 15px;
-}
-
 input[type]:focus {
     border: 2px solid green;
 }
@@ -70,40 +52,12 @@ select.form-control:hover {
     border: 2px solid green;
 }
 
-div.img-carousel > i:hover {
-    text-shadow: 2px 2px 4px green;
-    transition: transform .2s;
-    transform: scale(1.25);
-}
-
 div.form-check:hover {
     text-shadow: 2px 2px 4px green;
 }
 
-.img-carousel {
-    text-align: center;
-}
-
 .radio-input {
     padding-bottom: 15px;
-}
-
-div.img-carousel > img:hover {
-    transition: transform .2s;
-    transform: scale(1.02);
-}
-
-div.img-carousel {
-    border: 2px solid black;
-}
-
-img {
-    max-width: 580px;
-    max-height: 600px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 8px;
 }
 
 div.pdf-list a{

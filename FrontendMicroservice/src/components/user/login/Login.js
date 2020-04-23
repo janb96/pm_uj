@@ -4,7 +4,8 @@ import Header from './../../header/Header';
 import './Login.css';
 import {config} from './../../../config';
 import BackendResponse from "./../../feedback/BackendResponse";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
+import {checkToken} from "../../../utils/checkToken";
 
 class Login extends Component {
 
@@ -20,11 +21,13 @@ class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount() {
-
+    async componentWillMount() {
+        this.setState({
+            isLogin: await checkToken()
+        });
     }
 
-    componentDidUpdate() {
+    componentDidMount() {
 
     }
 
@@ -42,11 +45,12 @@ class Login extends Component {
                         status: response.data.status
                     });
                 } else {
-                    this.setState({
-                        backendMessage: "Password is correct",
-                        status: response.data.status
-                    });
                     window.sessionStorage.setItem("token", response.data.message.token);
+                    window.localStorage.setItem("token", response.data.message.token);
+                    axios.defaults.headers['x-access-token'] = window.localStorage.getItem("token");
+                    this.setState({
+                        isLogin: true
+                    });
                 }
             }
         );
@@ -60,31 +64,41 @@ class Login extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <Header/>
-                <div className="sign-in-form">
-                    <h1>Sign in</h1>
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="form-group">
-                            <label>Email address</label>
-                            <input  onChange={this.handleChange} placeholder="Email address" type="email" className="form-control" id="email"/>
-                        </div>
-                        <div className="form-group">
-                            <label>Password</label>
-                            <input  onChange={this.handleChange} placeholder="Password" type="password" className="form-control" id="password"/>
-                        </div>
-                        <button type="submit" className="btn btn-secondary btn-block">Sign in</button>
-                        <BackendResponse status={this.state.status} backendMessage={this.state.backendMessage}/>
-                    </form>
-                    <p>
-                        <Link to="/user/register">
-                            Create Account
-                        </Link>
-                    </p>
+
+        if(this.state.isLogin) {
+            return <Redirect to="/user/panel"/>
+        }
+
+        if(this.state.isLogin == false) {
+            return (
+                <div>
+                    <Header/>
+                    <div className="sign-in-form">
+                        <h1>Sign in</h1>
+                        <form onSubmit={this.handleSubmit}>
+                            <div className="form-group">
+                                <label>Email address</label>
+                                <input  onChange={this.handleChange} placeholder="Email address" type="email" className="form-control" id="email"/>
+                            </div>
+                            <div className="form-group">
+                                <label>Password</label>
+                                <input  onChange={this.handleChange} placeholder="Password" type="password" className="form-control" id="password"/>
+                            </div>
+                            <button type="submit" className="btn btn-secondary btn-block">Sign in</button>
+                            <BackendResponse status={this.state.status} backendMessage={this.state.backendMessage}/>
+                        </form>
+                        <p>
+                            <Link to="/user/register">
+                                Create Account
+                            </Link>
+                        </p>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
+
+        return <></>;
+
     }
 }
 

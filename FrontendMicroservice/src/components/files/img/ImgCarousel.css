@@ -1,0 +1,35 @@
+.img-carousel {
+    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    margin: auto;
+}
+
+.img-carousel {
+    text-align: center;
+}
+
+div.img-carousel {
+    box-shadow: 1px 1px 15px black;
+}
+
+i:hover {
+    text-shadow: 2px 2px 4px green;
+    transition: transform .2s;
+    transform: scale(1.25);
+}
+
+div.img-arrows > i {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.img-arrows {
+    padding: 15px;
+}
+
+/*img#carouselImg {*/
+/*    max-width: 580px;*/
+/*    max-height: 600px;*/
+/*}*/
