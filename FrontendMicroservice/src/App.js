@@ -7,21 +7,15 @@ import Confirmation from "./components/user/confirm/Confirmation";
 import AddAnnouncement from "./components/announcement/management/AddAnnouncement";
 import AnnouncementCard from "./components/announcement/announcement-card/AnnouncementCard";
 import UserPanel from "./components/user/panel/UserPanel";
+import Browser from "./components/browser/Browser";
 import axios from 'axios';
 import './App.css';
 
 axios.defaults.headers['x-access-token'] = window.localStorage.getItem("token");
 
-// window.localStorage.removeItem("token");
-// window.sessionStorage.removeItem("token");
-
 class App extends Component {
 
   render() {
-
-      console.log(window.sessionStorage.getItem("token"));
-      console.log(window.localStorage.getItem("token"));
-      console.log(axios.defaults.headers['x-access-token']);
 
     return (
         <BrowserRouter>
@@ -32,6 +26,7 @@ class App extends Component {
             <Route path='/user/register' component={Register}/>
             <Route path='/user/confirm/:p1/:p2/:p3' component={Confirmation}/>
             <Route path='/announcement/:announcementID' component={AnnouncementCard}/>
+            <Route path='/announcements/:categoryID/:subcategoryID' component={Browser}/>
             <Route path='/manage/announcement/add' component={AddAnnouncement}/>
           </Switch>
         </BrowserRouter>

@@ -40,7 +40,6 @@ class Header extends Component {
                         </div>
                     </div>
                 </div>
-                <br/>
             </div>
         );
     }

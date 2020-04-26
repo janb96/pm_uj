@@ -15,7 +15,8 @@ class Login extends Component {
             email: "",
             password: "",
             backendMessage: "",
-            status: ""
+            status: "",
+            isLogin: ""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -65,11 +66,11 @@ class Login extends Component {
 
     render() {
 
-        if(this.state.isLogin) {
+        if(this.state.isLogin.toString() === "true") {
             return <Redirect to="/user/panel"/>
         }
 
-        if(this.state.isLogin == false) {
+        if(this.state.isLogin.toString() === "false") {
             return (
                 <div>
                     <Header/>

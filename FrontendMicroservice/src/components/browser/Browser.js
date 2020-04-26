@@ -30,11 +30,12 @@ class Browser extends Component {
             minPrice: ""
         };
 
-        // this.orderBy = this.orderBy.bind(this);
         this.addSearchParams = this.addSearchParams.bind(this);
         this.changeLocation = this.changeLocation.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeSortBy = this.handleChangeSortBy.bind(this);
+        this.goToPreviousPage = this.goToPreviousPage.bind(this);
+        this.goToNextPage = this.goToNextPage.bind(this);
     }
 
 
@@ -71,6 +72,32 @@ class Browser extends Component {
             search: search,
             searchParams: searchParams
         });
+    }
+
+    goToPreviousPage() {
+        let page = this.state.searchParams.page;
+        if(page) {
+            page = parseInt(page);
+            if(page == 1) {
+                return;
+            } else {
+                page -= 1;
+                this.addSearchParams("page", page);
+                this.changeLocation();
+            }
+        }
+    }
+
+    goToNextPage() {
+        let page = 1;
+        if(this.state.searchParams.page) {
+            page = this.state.searchParams.page;
+        }
+        page = parseInt(page);
+        page += 1;
+        this.addSearchParams("page", page);
+        this.changeLocation();
+
     }
 
     handleChange(event) {
@@ -221,10 +248,10 @@ class Browser extends Component {
                             <div className="col-md-8">
                                 <div className="row text-center">
                                     <div className="col-6">
-                                        <p><i className="fas fa-backward"></i> Previous Page</p>
+                                        <p onClick={this.goToPreviousPage}><i className="fas fa-backward"></i> Previous Page</p>
                                     </div>
                                     <div className="col-6">
-                                        <p>Next Page <i className="fas fa-forward"></i></p>
+                                        <p onClick={this.goToNextPage}>Next Page <i className="fas fa-forward"></i></p>
                                     </div>
                                 </div>
                             </div>
