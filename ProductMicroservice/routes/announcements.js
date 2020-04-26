@@ -89,6 +89,10 @@ router.post('/', LoginGuard, async function(req, res, next) {
         return;
     }
 
+    if(photoUrlArray.length == 0) {
+        photoUrlArray.push("no-picture.jpg");
+    }
+
     const announcement = {
         announcementTitle: announcementTitle,
         announcementDescription: announcementDescription,
@@ -190,7 +194,6 @@ router.get('/:categoryID/:subcategoryID', async function(req, res, next) {
     let limit = LimitMaker(params);
     let orderBy = OrderMaker(params);
 
-    console.log(orderBy);
 
     announcements.find(query).skip(skip).limit(limit).sort(orderBy).exec(mongoCallback);
 

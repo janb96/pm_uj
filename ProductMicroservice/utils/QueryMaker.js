@@ -40,6 +40,12 @@ function QueryMaker(query_params) {
                 };
                 extender(query, subcategoryID);
                 break;
+            case "condition":
+                const condition = {
+                    condition: value
+                };
+                extender(query, condition);
+                break;
             case "isActive":
                 const isActive = {
                     isActive: value
