@@ -4,7 +4,7 @@ sequelize.sync();
 
 let UserFavouriteAnnouncements = sequelize.define('UserFavouriteAnnouncements', {
 
-    UserFavouriteAnnouncementsID: {
+    userFavouriteAnnouncementsID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true

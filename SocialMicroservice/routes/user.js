@@ -24,8 +24,14 @@ router.get('/favouriteAnnouncements', LoginGuard, async function(req, res, next)
                 userID: userID
             }
         });
+
+        let announcementsArray = [];
+        for(let announcement of announcements) {
+            announcementsArray.push(announcement.announcementID);
+        }
+
         res.status(200);
-        res.send(new SocialResponse(true, announcements));
+        res.send(new SocialResponse(true, announcementsArray));
         return;
     }catch(err) {
         res.status(200);
