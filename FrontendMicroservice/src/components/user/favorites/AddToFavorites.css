@@ -1,0 +1,9 @@
+div.favorite-heart-true > i {
+    color: red;
+    cursor: pointer;
+}
+
+div.favorite-heart-false > i {
+    color: black;
+    cursor: cell;
+}
