@@ -7,6 +7,7 @@ import Header from "../../header/Header";
 import ImgCarousel from './../../files/img/ImgCarousel';
 import PdfList from "../../files/pdf/PdfList";
 import UserCard from "../../user/card/UserCard";
+import AddToFavorites from "../../user/favorites/AddToFavorites";
 
 //CSS FILES
 import './AnnouncementCard.css';
@@ -29,14 +30,16 @@ class AnnouncementCard extends Component {
                 let responseStatus = response.data.status;
                 let responseMessage = response.data.message;
 
-                if(responseStatus.toString() !== "true" || responseMessage.length.toString() === "0") {
+                let exist = responseStatus.toString() !== "true";
+
+                if(exist) {
                     this.setState({
                         notFound: true
                     })
                 } else {
-                    if(responseMessage.length.toString() === "1") {
+                    if(responseMessage._id) {
                         this.setState({
-                            announcement: responseMessage[0]
+                            announcement: responseMessage
                         });
                     }
                 }
@@ -52,17 +55,6 @@ class AnnouncementCard extends Component {
         this.loadAnnouncementData(announcementID);
     }
 
-    getDescription() {
-        let descriptionFromDb = this.state.announcement.announcementDescription;
-        let splitDescription = descriptionFromDb.split('\n');
-
-        let htmlDescription = {};
-
-        for(let e of splitDescription) {
-            console.log(e);
-        }
-    }
-
     render() {
 
         console.log(this.state);
@@ -73,8 +65,9 @@ class AnnouncementCard extends Component {
             return (
                 <div>
                     <Header/>
-                    <div id="announcement">
+                    <div id="announcement" className="container">
                         <h1>Announcement Title: {this.state.announcement.announcementTitle}</h1>
+                        <AddToFavorites announcementID={this.state.announcementID}/>
                         <br/>
                         <hr/>
                         <br/>
@@ -105,6 +98,7 @@ class AnnouncementCard extends Component {
                                     <p><kbd>Price</kbd> {this.state.announcement.announcementPrice}</p>
                                     <p><kbd>Condition</kbd> {this.state.announcement.condition}</p>
                                     <p><kbd>Expiration date</kbd> {new Date(this.state.announcement.expirationDate).toDateString()}</p>
+                                    <p><kbd>Number of views</kbd> {this.state.announcement.numberOfViews}</p>
                                     <PdfList pdfFiles={this.state.announcement.pdfFiles}/>
                                 </div>
                             </div>

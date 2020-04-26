@@ -1,0 +1,19 @@
+div.announcement-miniature > a {
+    color: black;
+    text-decoration: none;
+}
+
+div.announcement-miniature:hover {
+    padding: 15px;
+    box-shadow: 1px 1px 15px black;
+    transform: scale(1.01);
+    background-color: grey;
+}
+
+i.fas.fa-circle.true {
+    color: green;
+}
+
+i.fas.fa-circle.false {
+    color: red;
+}
