@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  auth-microservice:
+    image: auth-microservice
+    deploy:
+      replicas: 1
+    ports:
+      - 3999:3999
+  cryptographic-microservice:
+    image: cryptographic-microservice
+    deploy:
+      replicas: 1
+    ports:
+      - 4000:4000
+  email-microservice:
+    image: email-microservice
+    deploy:
+      replicas: 1
+    ports:
+      - 3997:3997
+  file-microservice:
+    image: file-microservice
+    deploy:
+      replicas: 1
+    ports:
+      - 3996:3996
+  frontend-microservice:
+    image: frontend-microservice
+    deploy:
+      replicas: 1
+    ports:
+      - 3000:3000
+  product-microservice:
+    image: product-microservice
+    deploy:
+      replicas: 1
+    ports:
+      - 3998:3998
+  social-microservice:
+    image: social-microservice
+    deploy:
+      replicas: 1
+    ports:
+      - 4001:4001
+  test-microservice:
+    image: test-microservice
+    deploy:
+      replicas: 1
+    ports:
+      - 5004:80
+    volumes:
+      - ./TestMicroservice:/var/www/html
+  visualizer:
+    image: dockersamples/visualizer
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    ports:
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
