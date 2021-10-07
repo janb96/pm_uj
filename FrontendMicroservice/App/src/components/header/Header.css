@@ -1,0 +1,12 @@
+div.header-custom a {
+    color: white;
+    text-decoration: none;
+}
+
+div.header-custom a:hover {
+    color: white;
+    text-decoration: none;
+    text-shadow: 2px 2px 4px green;
+    transition: transform .2s;
+    transform: scale(1.25);
+}

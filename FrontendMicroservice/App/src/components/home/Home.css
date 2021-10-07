@@ -1,0 +1,19 @@
+div.home > div.container{
+    padding: 20px;
+}
+
+div.home div.protips {
+    box-shadow: 1px 1px 10px black;
+    padding: 20px;
+    height: 450px;
+    margin-bottom: 20px;
+}
+
+div.home div.step {
+    margin-top: 20px;
+}
+
+div.step h3{
+    margin-top: 20px;
+    font-size: 20px;
+}

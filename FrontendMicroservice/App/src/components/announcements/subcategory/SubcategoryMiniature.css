@@ -1,0 +1,15 @@
+div.subcategory-miniature {
+    padding: 20px;
+}
+
+div.subcategory-miniature > a {
+    color: black;
+    text-decoration: none;
+}
+
+div.subcategory-miniature:hover {
+    padding: 15px;
+    box-shadow: 1px 1px 15px black;
+    transform: scale(1.01);
+    background-color: grey;
+}
